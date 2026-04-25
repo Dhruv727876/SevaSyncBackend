@@ -1,4 +1,4 @@
-﻿import Groq from "groq-sdk";
+import Groq from "groq-sdk";
 import { env } from "../config/env.js";
 import { logger } from "../config/logger.js";
 import { CircuitBreaker } from "./circuitBreaker.js";
@@ -39,6 +39,15 @@ async function withTimeout(promise, timeoutMs) {
 async function createGroqCompletion(messages, temperature, context = {}) {
   let lastError;
 
+  logger.info({
+    message: "Groq attempt starting",
+    model: env.groqModel,
+    groqKeyPresent: Boolean(env.groqApiKey),
+    timeoutMs: env.groqTimeoutMs,
+    maxRetries: env.groqMaxRetries,
+    circuitOpen: breaker.isOpen()
+  });
+
   for (let attempt = 1; attempt <= env.groqMaxRetries; attempt += 1) {
     try {
       return await breaker.execute(() =>
@@ -58,7 +67,9 @@ async function createGroqCompletion(messages, temperature, context = {}) {
         message: "Groq request failed",
         requestId: context.requestId,
         attempt,
-        error: error.message
+        error: error.message,
+        status: error?.status,
+        groqError: JSON.stringify(error)
       });
     }
   }
