@@ -11,6 +11,7 @@ import needRoutes from "./routes/needRoutes.js";
 import volunteerRoutes from "./routes/volunteerRoutes.js";
 
 const app = express();
+app.set("trust proxy", 1);
 
 const aiLimiter = rateLimit({
   windowMs: 60 * 1000,
