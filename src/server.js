@@ -32,15 +32,19 @@ const globalLimiter = rateLimit({
 const devAllowedOrigins = new Set(["http://localhost:5173", "http://localhost:3000"]);
 
 function corsOriginResolver(origin, callback) {
-  if (env.corsOrigin) {
-    return callback(null, env.corsOrigin);
+  if (!origin) return callback(null, true);
+  
+  const allowed = env.corsOrigin?.toLowerCase();
+  const incoming = origin?.toLowerCase();
+  
+  if (allowed && incoming === allowed) {
+    return callback(null, origin);
   }
 
   if (!env.isProduction) {
-    if (!origin || devAllowedOrigins.has(origin)) {
+    if (devAllowedOrigins.has(origin)) {
       return callback(null, true);
     }
-    return callback(new Error("CORS origin not allowed"));
   }
 
   return callback(new Error("CORS origin not allowed"));
