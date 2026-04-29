@@ -1,39 +1,26 @@
-﻿# SevaSync Backend (Express + Gemini + Firestore + Llama 4 Image Analysis)
+# SevaSync Backend
 
-## 1) Install
+AI-Powered Community Need Intelligence & Volunteer Coordination Platform
+
+> **Note:** This is the **Backend repository** for SevaSync. The frontend code is in a separate repository: [SevaSync-Frontend](https://github.com/Dhruv727876/SevaSync-Frontend)
+
+**Live API:** https://sevasync-backend-917106621948.us-central1.run.app
+
+## Tech Stack
+
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Primary AI:** Google Gemini 2.5 Flash (with Groq fallback)
+- **Image Analysis:** Llama 4 Vision (OpenRouter)
+- **Database:** Firebase Firestore
+- **Hosting:** Google Cloud Run
+- **Authentication:** API Key based
+
+## Quick Start
+
+### 1) Install Dependencies
 ```bash
-npm install
-```
-
-## 2) Configure environment
-Create `.env` from `.env.example`:
-
-```env
-PORT=5000
-GEMINI_API_KEY=your_key
-LLAMA_API_KEY=your_llama_api_key
-LLAMA_API_URL=https://openrouter.ai/api/v1/chat/completions
-FIREBASE_CONFIG=your_config
-```
-
-## 3) Run
-```bash
-npm run dev
-```
-
-## API Endpoints
-
-### POST `/parse-text`
-Body:
-```json
-{
-  "text": "Kamrup needs medical help for 300 people urgently"
-}
-```
-
-### POST `/analyze-image`
-- Content-Type: `multipart/form-data`
-- Field name: `image`
+npm install- Field name: `image`
 
 Returns the same structure as `/parse-text`:
 ```json
